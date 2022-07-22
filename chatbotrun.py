@@ -16,14 +16,15 @@ class Chatbot():
     #모델 불러오기
     def execute_model(self):
         device = torch.device('cpu')
-        PATH = 'save/chatbot_v50.pt'
+        PATH = 'save/mibot_v50.pt'
         model = torch.load(PATH, map_location=device)
         model.eval()
 
         with torch.no_grad():
             while 1:
                 q = input("user > ").strip()
-                if q == "quit":
+                if q == "다음에 보자":
+                    print("mibot > 다음에 봐요:)")
                     break
                 a = ""
                 while 1:
