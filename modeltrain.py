@@ -25,7 +25,7 @@ class Solution():
 
     def hook(self):
         self.model_train()
-        #self.save_model()
+        self.save_model()
 
     # 토크나이저 로드
     def load_tokenizer(self):
@@ -50,20 +50,19 @@ class Solution():
         train_set = ChatbotDataset(self.chatbot_data, max_len=40)
         #윈도우 환경에서 num_workers 는 무조건 0으로 지정, 리눅스에서는 2
         train_dataloader = DataLoader(train_set, batch_size=32, num_workers=0, shuffle=True, collate_fn=self.collate_batch)
-        print("start")
+        print("test data")
         for batch_idx, samples in enumerate(tqdm(train_dataloader)):
             token_ids, mask, label = samples
-        print("end")
         self.load_tokenizer().tokenize("안녕하세요. 한국어 GPT-2 입니다.😤:)l^o")
         return train_dataloader
 
     def model_train(self):
         model = self.load_model()
-        model.train()
+        model = model.train()
         learning_rate = 5e-5
         criterion = torch.nn.CrossEntropyLoss(reduction="none")
         optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-        epoch = 50
+        epoch = 2
         Sneg = -1e18
         print ("start")
         for epoch in range(epoch):
@@ -88,15 +87,16 @@ class Solution():
                 if batch_idx % log_interval == 0:
                     print("epoch {} batch_idx {} loss {}".format(epoch+1, batch_idx+1, avg_loss))
         print ("end")
-        torch.save(model, './save/mibot_v50.pt')
+        #torch.save(model, './save/mibot_v50.pt')
+        return model
 
 
 
     #모델 저장
-    '''def save_model(self):
+    def save_model(self):
         model = self.model_train()
-        PATH = './save/test_v1.pt'
-        torch.save(model, PATH)'''
+        PATH = './save/test.pt'
+        torch.save(model, PATH)
 
 if __name__ == '__main__':
     Solution().hook()

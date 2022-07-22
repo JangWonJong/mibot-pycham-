@@ -16,7 +16,7 @@ class Chatbot():
     #모델 불러오기
     def execute_model(self):
         device = torch.device('cpu')
-        PATH = 'save/mibot_v50.pt'
+        PATH = 'save/test.pt'
         model = torch.load(PATH, map_location=device)
         model.eval()
 
